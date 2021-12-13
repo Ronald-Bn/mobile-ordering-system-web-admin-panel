@@ -1,0 +1,57 @@
+{
+  
+  "name": "chasyproducts",
+  
+  "version": "1.0.0",
+  
+  "description": "��#\u0000 \u0000A\u0000d\u0000m\u0000i\u0000n\u0000S\u0000i\u0000d\u0000e\u0000\r\u0000 \u0000",
+  
+  "main": "custom.js",
+  
+  "directories": {
+  
+    
+  "doc": "doc"
+  
+  },
+  
+  "scripts": {
+  
+    
+  "test": "echo \"Error: no test specified\" && exit 1"
+  
+  },
+  
+  "repository": {
+  
+    
+  "type": "git",
+  
+    
+  "url": "git+https://github.com/Ronald-Bn/AdminSide.git"
+  
+  },
+  
+  "keywords": [],
+  
+  "author": "",
+  
+  "license": "ISC",
+  
+  "bugs": {
+  
+    
+  "url": "https://github.com/Ronald-Bn/AdminSide/issues"
+  
+  },
+  
+  "dependencies": {
+  
+    
+  "firebase": "^9.6.1",
+  
+    
+  "gh-pages": "^3.2.3"
+  
+  }
+}
