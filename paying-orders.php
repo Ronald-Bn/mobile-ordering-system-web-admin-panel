@@ -30,6 +30,7 @@ include('includes/navbar.php');
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th> Order ID </th>
                             <th> Name </th>
                             <th> Price </th>
                             <th> Phone no. </th>
@@ -57,6 +58,7 @@ include('includes/navbar.php');
 
                         ?>
                                 <tr>
+                                    <td><?= $row['cartId'] ?></td>
                                     <td><?= $row['name']; ?></td>
                                     <td><?= $row['totalpayment']; ?></td>
                                     <td><?= $row['phone']; ?></td>
@@ -68,7 +70,7 @@ include('includes/navbar.php');
                                         <button data-id="<?= $row['userid']; ?>/<?= $row['cartId']; ?>" class="btn btn-info view">VIEW</button>
                                     </td>
                                     <td>
-                                        <button data-id="<?= $key ?>" class="btn btn-danger remarks">CANCEL</button>
+                                        <button data-id="<?= $key; ?>|<?= $row['userid']; ?>|<?= $row['cartId']; ?>" class="btn btn-danger remarks">CANCEL</button>
                                     </td>
                                 </tr>
 
@@ -95,7 +97,6 @@ include('includes/navbar.php');
 
 <!-- Content Row -->
 <?php
-include('remarksfile.php');
 include('modal.php');
 include('includes/scripts.php');
 include('includes/footer.php');

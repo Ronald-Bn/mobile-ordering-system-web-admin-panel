@@ -30,11 +30,13 @@ include('includes/navbar.php');
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th> Order ID </th>
                             <th> Name </th>
                             <th> Price </th>
-                            <th> Phone no. </th>
+                            <th> Payment </th>
                             <th> Address </th>
-                            <th> Date </th>
+                            <th> Time </th>
+                            <th> Ship Time </th>
                             <th> Status </th>
                             <th> Cart </th>
                             <th colspan="2" style="text-align: center;">Action</th>
@@ -53,24 +55,32 @@ include('includes/navbar.php');
                             foreach ($fetchdata as $key => $row) {
                         ?>
                                 <tr>
-                                    <td style="display:none;"><?= $row['key']; ?></td>
+                                    <td> <?php echo $row['cartId']; ?> </td>
                                     <td><?= $row['name']; ?></td>
                                     <td><?= $row['totalpayment']; ?></td>
-                                    <td><?= $row['phone']; ?></td>
+                                    <td><?= $row['payment']; ?></td>
                                     <td><?= $row['address']; ?></br><?= $row['zipcode']; ?></td>
                                     <td><?= $row['date']; ?></td>
+                                    <td><?= $row['shipdate']; ?></td>
                                     <td><?= $row['status']; ?></td>
                                     <td>
                                         <button data-id="<?= $row['userid']; ?>/<?= $row['cartId']; ?>" class="btn btn-info view">VIEW</button>
                                     </td>
-                                    <td>
+                                    <td id="received">
                                         <form action="code.php" method="POST">
-                                            <button type="submit" name="receiving_btn" value="<?= $key; ?>|<?= $row['userid']; ?>|<?= $row['cartId']; ?>" class="btn btn-success"> DELIVERED</button>
+                                            <?php
+                                            $submit = 'submit';
+                                            $receive = 'receiving_btn';
+                                            $usersId = $key . '|' . $row['userid'] . '|' . $row['cartId'];
+                                            if ($row['notify'] == "0") {
+                                                echo '<button type="' . $submit . '" name="' . $receive . '" value="' . $usersId . '" class="btn btn-success"> DELIVERED</button>';
+                                            } else {
+                                                echo 'WAITING';
+                                            }
+                                            ?>
                                         </form>
                                     </td>
-                                    <td>
-                                        <button data-id="<?= $key ?>" class="btn btn-danger remarks">CANCEL</button>
-                                    </td>
+
                                 </tr>
 
                             <?php
@@ -97,7 +107,6 @@ include('includes/navbar.php');
 
 <!-- Content Row -->
 <?php
-include('remarksfile.php');
 include('modal.php');
 include('includes/scripts.php');
 include('includes/footer.php');

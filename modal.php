@@ -33,3 +33,10 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="remarksModal" role="dialog">
+    <div class="modal-dialog" id="remarks">
+
+    </div>
+</div>

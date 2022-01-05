@@ -13,12 +13,6 @@ include('includes/navbar.php');
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-4 text-gray-800"></h1>
-        <a href="generate-report.php" target="blank" class="d-none d-sm-inline-block mr-3 btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-    </div>
     <?php
     if (isset($_SESSION['orders'])) {
         function_alert($_SESSION['orders']);
@@ -38,13 +32,14 @@ include('includes/navbar.php');
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th> Order ID </th>
                             <th> Name </th>
                             <th> Price </th>
                             <th> Address </th>
                             <th> Date </th>
                             <th> Reject date </th>
                             <th> Status </th>
-                            <th> Cart </th>
+                            <th> All info.</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,6 +56,7 @@ include('includes/navbar.php');
                         ?>
                                 <tr>
                                     <td style="display:none;"><?= $row['key']; ?></td>
+                                    <td><?= $row['cartId']; ?></td>
                                     <td><?= $row['name']; ?></td>
                                     <td><?= $row['totalpayment']; ?></td>
                                     <td><?= $row['address']; ?></br><?= $row['zipcode']; ?></td>

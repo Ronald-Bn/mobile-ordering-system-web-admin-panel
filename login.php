@@ -41,7 +41,6 @@ if (isset($_SESSION['verified_user_id'])) {
                     </div>
 
                 </form>
-
             </div>
         </div>
     </div>

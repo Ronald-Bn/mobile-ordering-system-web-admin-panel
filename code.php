@@ -3,6 +3,7 @@ session_start();
 include('dbcon.php');
 date_default_timezone_set('Asia/Manila');
 $date = date("m/d/Y H:i");
+$reportDate = date("m/d/Y");
 
 function test_input($data)
 {
@@ -14,20 +15,24 @@ function test_input($data)
 
 //Reject Orders
 if (isset($_POST['reject_btn'])) {
-    $key = $_POST['reject_btn'];
-
+    list($key, $userid, $cartId) = explode('|', $_POST['key']);
+    $rej_reason = $_POST['rej_reason'];
+    $comment = $_POST['comment'];
     $status = "rejected";
 
-    if (empty($_POST["comment"])) {
-        $comment = "";
+
+    if ($rej_reason == "Others") {
+        $rej_reason = $comment;
     } else {
-        $comment = $_POST["comment"];
+        $rej_reason = $rej_reason;
     }
 
     $updateData = [
         'status' => $status,
         'rejectdate' =>  $date,
-        'remarks' =>  $comment,
+        'rejected' => $reportDate,
+        'remarks' =>  $rej_reason,
+        'status_userid' => $status . '_' . $userid,
         'cancelledby' => 'Seller',
     ];
 
@@ -55,6 +60,7 @@ if (isset($_POST['approve_btn'])) {
     $updateData = [
         'status' => $status,
         'confirmdate' =>  $date,
+        'approved' => $reportDate,
         'status_userid' => $status . '_' . $userid,
     ];
 
@@ -92,7 +98,9 @@ if (isset($_POST['shipping_btn'])) {
     $updateData = [
         'status' =>  $status,
         'shipdate' =>  $date,
+        'shipping' => $reportDate,
         'status_userid' => $status . '_' . $userid,
+        'notify' => "0",
     ];
 
     $postData = [
@@ -131,12 +139,12 @@ if (isset($_POST['receiving_btn'])) {
         'ordersid' => $key,
         'userid' => $userid,
         'cartId' => $cartId,
-        'notify' => false,
+        'notify' => true,
     ];
 
     $updateData = [
-        'status' => $status,
-        'notify' => '0',
+        'received' => $reportDate,
+        'notify' => '1',
     ];
 
     $postquery_result = $database->getReference($ref_tables)->set($postData);

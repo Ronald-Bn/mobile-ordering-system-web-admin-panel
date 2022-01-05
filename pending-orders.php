@@ -71,7 +71,7 @@ include('includes/navbar.php');
                                         </form>
                                     </td>
                                     <td>
-                                        <button data-id="<?= $key ?>" class="btn btn-danger remarks">REJECT</button>
+                                        <button data-id="<?= $key; ?>|<?= $row['userid']; ?>|<?= $row['cartId']; ?>" class="btn btn-danger remarks">REJECT</button>
                                     </td>
                                 </tr>
 
@@ -99,7 +99,6 @@ include('includes/navbar.php');
 
 <!-- Content Row -->
 <?php
-include('remarksfile.php');
 include('modal.php');
 include('includes/scripts.php');
 include('includes/footer.php');

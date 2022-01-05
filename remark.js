@@ -1,11 +1,12 @@
 $(document).ready(function () {
   $(".remarks").click(function () {
-    var userid = $(this).data("id");
+    var key = $(this).data("id");
     $.ajax({
       url: "remarksfile.php",
       type: "post",
-      data: { userid: userid },
+      data: { key: key },
       success: function (response) {
+        $("#remarks").html(response);
         $("#remarksModal").modal("show");
       },
     });

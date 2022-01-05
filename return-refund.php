@@ -1,8 +1,12 @@
 <?php
+session_start();
+if (!isset($_SESSION['verified_user_id'])) {
+    header('Location:login.php');
+    exit();
+}
 include('includes/header.php');
 include('includes/navbar.php');
 ?>
-
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -10,7 +14,7 @@ include('includes/navbar.php');
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h4 class="m-0 font-weight-bold text-danger">Completed Orders</h4>
+            <h4 class="m-0 font-weight-bold text-danger">Request Return & Refund Orders</h4>
         </div>
 
         <div class="card-body">
@@ -22,11 +26,11 @@ include('includes/navbar.php');
                         <tr>
                             <th> Order ID </th>
                             <th> Name </th>
-                            <th> Price </th>
-                            <th> Payment </th>
-                            <th> Address </th>
+                            <th> Reason </th>
+                            <th> Comments </th>
                             <th> Status </th>
-                            <th> All info. </th>
+                            <th> All Info. </th>
+                            <th colspan="2" style="text-align: center;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,26 +39,38 @@ include('includes/navbar.php');
 
                         $ref_table = '/Orders/';
 
-                        $fetchdata = $database->getReference($ref_table)->orderByChild('status')->equalTo("completed")->getSnapshot()->getValue();
+                        $fetchdata = $database->getReference($ref_table)->orderByChild('status')->equalTo("return")->getSnapshot()->getValue();
 
                         if ($fetchdata > 0) {
                             $i = 0;
+                            $status = " ";
                             foreach ($fetchdata as $key => $row) {
+                                if ($row['status'] == "return") {
+                                    $status = "Request";
+                                }
+
                         ?>
                                 <tr>
                                     <td style="display:none;"><?= $row['key']; ?></td>
                                     <td><?= $row['cartId']; ?></td>
                                     <td><?= $row['name']; ?></td>
-                                    <td><?= $row['totalpayment']; ?></td>
-                                    <td><?= $row['payment']; ?></td>
-                                    <td><?= $row['address']; ?></br><?= $row['zipcode']; ?></td>
-                                    <td><?= $row['status']; ?></td>
+                                    <td><?= $row['reason']; ?></td>
+                                    <td><?= $row['comment']; ?></td>
+                                    <td><?= $status ?></td>
                                     <td>
                                         <form autocomplete="off" action="info-report.php" method="POST" target="_blank">
                                             <input style="display:none;" type="text" name="cartId" value="<?= $row['userid']; ?>/<?= $row['cartId']; ?>" />
                                             <input style="display:none;" type="text" name="ordersId" value="<?= $row['key']; ?>">
                                             <input type="submit" class="btn btn-info" name="Generate Report" value="VIEW" />
                                         </form>
+                                    </td>
+                                    <td>
+                                        <form action="code.php" method="POST">
+                                            <button type="submit" name="approve_btn" value="<?= $key; ?>|<?= $row['userid']; ?>|<?= $row['cartId']; ?>" class="btn btn-success"> APPROVE</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <button data-id="<?= $key ?>" class="btn btn-danger remarks">REJECT</button>
                                     </td>
                                 </tr>
 
@@ -79,9 +95,14 @@ include('includes/navbar.php');
     </div>
 </div>
 
+
+
+
+
 <!-- Content Row -->
 <?php
 include('modal.php');
 include('includes/scripts.php');
+include('includes/added_scripts.php');
 include('includes/footer.php');
 ?>

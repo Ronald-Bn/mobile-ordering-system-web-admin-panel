@@ -1,7 +1,10 @@
 {
+    
+    "config": { 
+        "platform-check": false 
+    },
     "require": {
         "kreait/firebase-php": "^5.23",
         "kreait/firebase-bundle": "^2.4"
-    },
-    "config": { "platform-check": false }   
+    }   
 }

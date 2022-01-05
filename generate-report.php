@@ -5,7 +5,16 @@ include('dbcon.php');
 
 $ref_table = '/Orders/';
 
-$fetchdata = $database->getReference($ref_table)->orderByChild('status')->equalTo($_POST["orders"])->getSnapshot()->getValue();
+
+function RemoveSpecialChar($str)
+{
+    $res = preg_replace('/[\/\@\.\;\" "]+/', '', $str);
+    return $res;
+}
+
+$first = RemoveSpecialChar($_POST["datepicker_one"]);
+$second = RemoveSpecialChar($_POST["datepicker_two"]);
+$fetchdata = $database->getReference($ref_table)->orderByChild($_POST['orders'])->startAt($first)->endAt($second)->getSnapshot()->getValue();
 
 class myPDF extends FPDF
 {
@@ -73,6 +82,7 @@ class myPDF extends FPDF
 
     function Header()
     {
+
         $orders = '';
         if ($_POST["orders"] == 'pending') {
             $orders = 'Pending Orders';
@@ -110,8 +120,9 @@ class myPDF extends FPDF
         $w = array(20, 30, 40, 50, 60, 70, 80, 90, 120, 160);
         $this->SetY(20);
         $this->SetFont('courier', '', 9);
+        $this->Cell($w[2], 8, 'ORDER ID', 1, 0, 'C');
         $this->Cell($w[2], 8, 'NAME', 1, 0, 'C');
-        $this->Cell($w[9], 8, 'ADDRESS', 1, 0, 'C');
+        $this->Cell($w[8], 8, 'ADDRESS', 1, 0, 'C');
         $this->Cell($w[2], 8, 'DATE', 1, 0, 'C');
         $this->Cell($w[0], 8, 'STATUS', 1, 0, 'C');
         $this->Cell($w[0], 8, 'PRICE', 1, 0, 'C');
@@ -129,8 +140,9 @@ class myPDF extends FPDF
             foreach ($fetchdata as $key => $row) {
                 $total_price +=  (int)$row['totalpayment'];
 
+                $this->CellFitScale($w[2], 6, $row['cartId'], 1, 0, 'C');
                 $this->CellFitScale($w[2], 6, $row['name'], 1, 0, 'C');
-                $this->CellFitScale($w[9], 6, $row['address'], 1, 0, 'C');
+                $this->CellFitScale($w[8], 6, $row['address'], 1, 0, 'C');
                 $this->CellFitScale($w[2], 6, $row['date'], 1, 0, 'C');
                 $this->CellFitScale($w[0], 6, $row['status'], 1, 0, 'C');
                 $this->CellFitScale($w[0], 6, number_format($row['totalpayment']), 1, 0, 'R');

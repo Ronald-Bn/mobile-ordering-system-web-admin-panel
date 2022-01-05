@@ -5,13 +5,38 @@ use Firebase\Auth\Token\Exception\InvalidToken;
 session_start();
 include('dbcon.php');
 
+function function_alert($message)
+{
+
+    // Display the alert box 
+    echo "<script>alert('$message');</script>";
+}
+
+
 if (isset($_POST['login_btn'])) {
     $email = $_POST['email'];
     $clearTextPassword = $_POST['password'];
 
+    include('dbcon.php');
+    $confirmEmail = '';
+
+    $ref_table = '/Admin/';
+
+    $fetchdata = $database->getReference($ref_table)->getSnapshot()->getValue();
+
+    if ($fetchdata > 0) {
+        $i = 0;
+        foreach ($fetchdata as $key => $row) {
+            if ($row['email'] != $email) {
+                $_SESSION['status'] = "Invalid Email Address";
+                header('Location:login.php');
+                exit();
+            }
+        }
+    }
+
     try {
         $user = $auth->getUserByEmail($email);
-
         try {
             $signInResult = $auth->signInWithEmailAndPassword($email, $clearTextPassword);
             $idTokenString = $signInResult->idToken();

@@ -30,6 +30,7 @@ include('includes/navbar.php');
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th> Order ID </th>
                             <th> Name </th>
                             <th> Price </th>
                             <th> Payment </th>
@@ -55,7 +56,7 @@ include('includes/navbar.php');
                             foreach ($fetchdata as $key => $row) {
                         ?>
                                 <tr>
-                                    <td style="display:none;"><?= $row['key']; ?></td>
+                                    <td><?= $row['cartId']; ?></td>
                                     <td><?= $row['name']; ?></td>
                                     <td><?= $row['totalpayment']; ?></td>
                                     <td><?= $row['payment']; ?></td>
@@ -75,10 +76,7 @@ include('includes/navbar.php');
                                         </form>
                                     </td>
                                     <td>
-                                        <form action="code.php" method="POST">
-                                            <button type="submit" name="reject_btn" value="<?= $key; ?>" class="btn btn-danger">CANCEL</button>
-                                        </form>
-                                        </form>
+                                        <button data-id="<?= $key; ?>|<?= $row['userid']; ?>|<?= $row['cartId']; ?>" class="btn btn-danger remarks">CANCEL</button>
                                     </td>
                                 </tr>
 
